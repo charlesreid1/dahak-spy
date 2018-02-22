@@ -30,8 +30,8 @@ Description: MongoExpress is an extremely useful web interface for MongoDB. It f
 
 ## ZeroMQ (ZMQ)
 
-Port: 
+Port: <specified by user>
 
-Link: [ZeroMQ]()
+Link: [ZeroMQ](http://zeromq.org/)
 
 Description: ZeroMQ is a messaging queue with a client-server pub-sub architecture. Clients can either publish (write) to a channel, or subscribe to (read) a channel. ZMQ separates the process of publishing data and storing it. This allows for publishers to publish to a channel without regard to what will ultimately be done with the data by the subscribers (and to easily share data with multiple subscribers). For example, if a publisher publishes 3 messages per second, but data is only needed at a 10-second resolution, or we want to report a rolling average, the messages can be collected and filtered as needed.
