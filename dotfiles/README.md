@@ -2,7 +2,7 @@
 
 These dotfiles will give you a nice blue prompt.
 
-![Screen shot after installing](/screen.png)
+![Screen shot after installing](/dotfiles/screen.png)
 
 ## Installing Dotfiles and Scripts
 
