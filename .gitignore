@@ -1,2 +1,2 @@
-# Ignore local grafana data directory
-d-grafana/grafana-data
+# This file is inteded to hold machine-specific, non-git-commited info
+.extra
