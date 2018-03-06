@@ -41,8 +41,8 @@ else
 	white="\e[1;37m";
 fi;
 
-# Yeti is purple
-userStyle="${purple}"
+# Spy is cyan
+userStyle="${cyan}"
 
 # Highlight the hostname when connected via SSH.
 if [[ "${SSH_TTY}" ]]; then
