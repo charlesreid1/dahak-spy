@@ -5,11 +5,11 @@ data from nodes working on dahak workflows.
 
 ## Screenshots
 
-Netdata running on the yeti node @ 10.11.0.194:
+Netdata running on the yeti node @ 10.11.0.194 (yeti is a beefy node running the dahak pipeline):
 
 ![dahak-yeti netdata instance](https://i.imgur.com/DGMdAZz.png)
 
-Netdata running on the spy node @ 10.11.0.192:
+Netdata running on the spy node @ 10.11.0.192 (spy is monitoring itself as well as yeti nodes):
 
 ![dahak-spy netdata instance](https://i.imgur.com/ECoGLFN.png)
 
