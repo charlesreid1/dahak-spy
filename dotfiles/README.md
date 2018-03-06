@@ -56,7 +56,7 @@ Log out and log back in.
 Install a list of essentials from aptitude:
 
 ```
-$ ./install_packages.sh
+$ sudo ./install_packages.sh
 ```
 
 ## Using
