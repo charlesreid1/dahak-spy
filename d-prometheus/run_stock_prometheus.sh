@@ -6,7 +6,7 @@ HOSTIP="10.6.0.2"
 docker container prune -f
 
 docker run \
-        --name happy_prom \
+        --name helms \
         -p ${HOSTIP}:9090:9090 \
         -d \
         -v ${PWD}/config/netdata.yml:/etc/prometheus/prometheus.yml \

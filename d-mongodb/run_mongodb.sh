@@ -34,7 +34,7 @@ else
         mkdir -p $MONGODIR
     
         docker run \
-            --name philby_mongo \
+            --name philby \
             -p 27017:27017 \
             -v ${MONGODIR}:/data \
             -ti spymongo \
@@ -43,7 +43,7 @@ else
     else
     
         docker run \
-            --name philby_mongo \
+            --name philby \
             -p 27017:27017 \
             -v ${MONGODIR}:/data \
             -d \
