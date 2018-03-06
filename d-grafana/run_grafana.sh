@@ -31,6 +31,7 @@ else
     mkdir -p ${GRAFANADIR}
     
     docker run \
+        --name smiley \
         -i \
         -p 3000:3000 \
         -v ${GRAFANADIR}:/var/lib/grafana \
@@ -41,6 +42,7 @@ else
     else
 
     docker run \
+        --name smiley \
         -d \
         -p 3000:3000 \
         -v ${GRAFANADIR}:/var/lib/grafana \
