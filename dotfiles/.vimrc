@@ -8,7 +8,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 filetype plugin indent on
-setlocal spell spelllang=en_us
+"setlocal spell spelllang=en_us
 " disable folding
 set nofoldenable
 " Turn off Esc+O key sequences (eliminates one-second delay when pressing O) https://superuser.com/a/161216
