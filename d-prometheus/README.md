@@ -20,7 +20,7 @@ Prometheus has a web interface available on port 9090.
 See [prometheus repo](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus.yml)
 for an example `prometheus.yml` config file.
 
-Prometheus expets a `prometheus.yml` file to be in `/etc/prometheus/prometheus.yml`
+Prometheus expects a `prometheus.yml` file to be in `/etc/prometheus/prometheus.yml`
 inside the container.
 
 To use a custom `prometheus.yml` config file, there are two options:
@@ -39,12 +39,21 @@ Bind a host directory to a container directory using the `-v` flag, and point to
 ```
 docker run \
         -p 9090:9090 \
-        -v ${PWD}/prometheus-data:/prometheus-data \
+        -v ${PWD}/prometheus-conf:/prometheus-conf \
         prom/prometheus \
-        --config.file=/prometheus-data/prometheus.yml
+        --config.file=/prometheus-conf/prometheus.yml
 ```
 
 ## Netdata-Prometheus config
 
+To get Netdata set up with Prometheus, make sure Netdata is bound
+to a private or public IP address.
 
+The Netdata endpoint for Prometheus to scrape is set in the 
+config file. `config/netdata.yml` contains a ready to go 
+Prometheus config for scraping netdata.
+
+Now, run Prometheus. Click Status at the top, then Targets.
+This should list all the data scrape targets in the configuration
+file, and should be able to reach the Netdata endpoint.
 
