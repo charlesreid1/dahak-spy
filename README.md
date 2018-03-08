@@ -3,6 +3,18 @@
 This repo contains files for setting up a node for monitoring and logging
 data from nodes working on dahak workflows.
 
+## Screenshots
+
+Netdata running on the yeti node @ 10.11.0.194 (yeti is a beefy node running the dahak pipeline):
+
+![dahak-yeti netdata instance](https://i.imgur.com/DGMdAZz.png)
+
+Netdata running on the spy node @ 10.11.0.192 (spy is monitoring itself as well as yeti nodes):
+
+![dahak-spy netdata instance](https://i.imgur.com/ECoGLFN.png)
+
+## Services
+
 Services are run through Docker. Dockerfiles and/or run and build scripts provided.
 
 Database services:
@@ -21,7 +33,7 @@ Messaging services:
 
 <br />
 
-# Databases
+## Databases:
 
 ### MongoDB
 
@@ -31,7 +43,7 @@ Link: [MongoDB](https://www.mongodb.com/)
 
 Description: MongoDB is a NoSQL database. It is loose with syntax, accepts unstructured data, and is easy to get going. It is consistent with a philosophy of lowering barriers to collecting data.
 
-### MongoExpress
+#### MongoExpress
 
 Port: `8081`
 
@@ -41,7 +53,7 @@ Description: MongoExpress is an extremely useful web interface for MongoDB. It f
 
 <br />
 
-## Metrics, Monitoring, and Dashboards
+## Metrics, Monitoring, Dashboards:
 
 ### Netdata
 
@@ -64,9 +76,7 @@ data contained in the Prometheus database.
 
 <br />
 
-# Messaging
-
-Also known as pub-sub.
+## Messaging:
 
 ### ZeroMQ (ZMQ)
 
