@@ -11,7 +11,7 @@ function doIt() {
 	rsync \
 		--exclude ".git/" \
 		--exclude "bootstrap.sh" \
-		--exclude "docker.sh" \
+		--exclude "get-docker.sh" \
 		--exclude "install_packages.sh" \
 		--exclude "pre_bootstrap.sh" \
 		--exclude "screen.png" \
