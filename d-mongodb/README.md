@@ -6,6 +6,12 @@ Docker hub page: [link](https://hub.docker.com/_/mongo/)
 
 See documentation here: [link](https://github.com/docker-library/docs/tree/master/mongo)
 
+## configure
+
+Because we had so many permissions issues with mounting files 
+shared between the host and the container, we opted to put
+any configuration options directly on the command line.
+
 ## build
 
 no need to build, running will do a docker pull.
@@ -73,3 +79,4 @@ $ docker run -it --rm --link happy_mongo:mongo mongo \
 	mongo -u jsmith -p some-initial-password --authenticationDatabase admin \
 	some-mongo/some-db
 ```
+
