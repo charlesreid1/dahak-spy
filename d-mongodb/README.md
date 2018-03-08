@@ -1,72 +1,75 @@
-# MongoDB Docker Service
+# d-mongodb
 
-This Dockerfile allows for running MongoDB in a Docker container.
+Docker library mongo recipe: [link](https://github.com/docker-library/mongo)
 
-## Usage
+Docker hub page: [link](https://hub.docker.com/_/mongo/)
 
-To build:
+See documentation here: [link](https://github.com/docker-library/docs/tree/master/mongo)
 
-```
-$ ./build_mongodb.sh
-```
+## build
 
-To run:
+no need to build, running will do a docker pull.
 
-```
-$ ./run_mongodb.sh
-```
-
-To change the IP address that MongoDB is bound to, you have two options:
-* Bind to the IP address at the Docker level 
-* Bind to the IP address at the MongoDB level
-
-To bind at the Docker level, modify the `docker run` command's `-p` flag.
-Change this:
+## run
 
 ```
--p 27017:27017
+docker run --name happy_mongo -d mongo
 ```
 
-to this:
+## auth
+
+MongoDB does not require authentication by default.
+
+To create an initial user:
 
 ```
--p <host-bind-ip-addr>:27017:27017
+$ docker exec -it some-mongo mongo admin
+connecting to: admin
+> db.createUser({ user: 'jsmith', pwd: 'some-initial-password', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+Successfully added user: {
+    "user" : "jsmith",
+    "roles" : [
+        {
+            "role" : "userAdminAnyDatabase",
+            "db" : "admin"
+        }
+    ]
+}
 ```
 
-For example, if the MongoDB server is on a private subnet with IP address
-10.6.0.2, the flag would be:
+Or, to script it:
 
 ```
--p 10.6.0.2:27017:27017
+USER=${MONGODB_USERNAME:-mongo}
+PASS=${MONGODB_PASSWORD:-password}
+#PASS=${MONGODB_PASSWORD:-$(pwgen -s -1 16)}
+DB=${MONGODB_DBNAME:-admin}
+if [ ! -z "$MONGODB_DBNAME" ]
+then
+    ROLE=${MONGODB_ROLE:-dbOwner}
+else
+    ROLE=${MONGODB_ROLE:-dbAdminAnyDatabase}
+fi
+
+# Start MongoDB service
+/usr/bin/mongod --dbpath /data --nojournal &
+while ! nc -vz localhost 27017; do sleep 1; done
+
+# Create User
+echo "Creating user: \"$USER\"... password: \"$PASS\""
+/usr/bin/mongo $DB --eval "db.createUser({ user: '$USER', pwd: '$PASS', roles: [ { role: '$ROLE', db: '$DB' } ] });"
+
+# Stop MongoDB service
+/usr/bin/mongod --dbpath /data --shutdown
+
+# Start MongoDB service
+/usr/bin/mongod --conf /etc/mongod.conf --dbpath /data 
 ```
 
-To bind at the MongoDB level, edit the MongoDB config file `mongod.conf`
-and change the following section:
+Then connect container externally as follows:
 
 ```
-net:
-   bindIp: 127.0.0.1
-   port: 27017
+$ docker run -it --rm --link happy_mongo:mongo mongo \
+	mongo -u jsmith -p some-initial-password --authenticationDatabase admin \
+	some-mongo/some-db
 ```
-
-(If you change the port, you must also update the Dockerfile and the 
-`docker run` command.)
-
-## Info
-
-Data:
-* MongoDB docker file mounts the local host directory `./mongodb-data/` to the container directory `/data/`
-
-Config:
-* The `mongod.conf` configuration file is used to configure MongoDB
-* This configuration file is copied into the container at `/etc/mongod.conf`
-
-Ports:
-* By default, MongoDB listens internally on port 27017
-* Container's port 27017 is mapped to host's port 27017
-* To change the port, change it at the Docker level by editing the docker run command, or at the MongoDB level by changing the MongoDB configuration file
-
-Networking:
-* By default, MongoDB binds to 127.0.0.1 and will only listen for local requests
-* To have MongoDB listen on the network, use the config file to bind it to a particular interface
-
