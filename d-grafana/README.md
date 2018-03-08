@@ -14,7 +14,7 @@ To run the Docker container, run:
 $ ./run_grafana.sh
 ```
 
-This script attempts to discover the IP address
+The run script attempts to discover the IP address
 of the Grafana server, but the IP address can be
 hard-coded into the script if necessary.
 

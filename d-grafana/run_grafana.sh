@@ -13,10 +13,14 @@ function usage {
     echo ""
 }
 
-IPADDR="`dig +short myip.opendns.com @resolver1.opendns.com`"
+#HOSTIP="10.11.0.192"
+HOSTIP="0.0.0.0"
 GRAFANADIR="${PWD}/grafana-data"
 INTERACTIVE=false
 #INTERACTIVE=true
+
+# Remove dead containers
+docker container prune -f
 
 if [[ "$#" -ne 0 ]];
 then
@@ -28,27 +32,27 @@ else
     if [ "$INTERACTIVE" == true ]; 
     then
 
-    mkdir -p ${GRAFANADIR}
-    
-    docker run \
-        --name smiley \
-        -i \
-        -p 3000:3000 \
-        -v ${GRAFANADIR}:/var/lib/grafana \
-        -e "GF_SERVER_ROOT_URL=http://${IPADDR}"  \
-        -e "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel,grafana-simple-json-datasource  1.2.3" \
-        grafana/grafana:latest
+        mkdir -p ${GRAFANADIR}
+        
+        docker run \
+            --name smiley_graf \
+            -i \
+            -p 3000:3000 \
+            -v ${GRAFANADIR}:/var/lib/grafana \
+            -e "GF_SERVER_ROOT_URL=http://${HOSTIP}"  \
+            -e "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel,grafana-simple-json-datasource  1.2.3" \
+            grafana/grafana:latest
 
     else
 
-    docker run \
-        --name smiley \
-        -d \
-        -p 3000:3000 \
-        -v ${GRAFANADIR}:/var/lib/grafana \
-        -e "GF_SERVER_ROOT_URL=http://${IPADDR}"  \
-        -e "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel,grafana-simple-json-datasource  1.2.3" \
-        grafana/grafana:latest
+        docker run \
+            --name smiley_graf \
+            -d \
+            -p 3000:3000 \
+            -v ${GRAFANADIR}:/var/lib/grafana \
+            -e "GF_SERVER_ROOT_URL=http://${HOSTIP}"  \
+            -e "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel,grafana-simple-json-datasource  1.2.3" \
+            grafana/grafana:latest
 
     fi
 
