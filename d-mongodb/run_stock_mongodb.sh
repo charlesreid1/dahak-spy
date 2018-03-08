@@ -8,18 +8,15 @@ MONGODATA="${PWD}/mongo-data"
 # Remove dead containers
 docker container prune -f
 
-docker run \
-        --name philby_mongo \
-        -v ${MONGODATA}:/data/db \
-        -v ${PWD}conf/mongod.conf:/etc/mongod.conf \
-        -d \
-        mongo \
-        --conf /etc/mongod.conf
+# Note: all *kinds* of permissions problems
+# coming from mounting directories directly
+# between host and container.
+# Use docker volumes instead.
+# Set config options on the command line.
 
-if [ "$INTERACTIVE" == true ]; 
-then
-    echo
-else
-    echo
-fi
+docker run \
+    -v philby_mong_data:/data \
+    --name philby_mongo \
+    -i \
+    mongo --bind_ip ${HOSTIP}
 
