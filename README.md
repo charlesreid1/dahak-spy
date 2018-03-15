@@ -1,88 +1,111 @@
-# dahak-spy
+# dahak-spy 
 
-This repo contains files for setting up a node for monitoring and logging
+The dahak-spy repo contains files for setting up a node for monitoring and logging
 data from nodes working on dahak workflows.
-
-## Screenshots
-
-Netdata running on the yeti node @ 10.11.0.194 (yeti is a beefy node running the dahak pipeline):
-
-![dahak-yeti netdata instance](https://i.imgur.com/DGMdAZz.png)
-
-Netdata running on the spy node @ 10.11.0.192 (spy is monitoring itself as well as yeti nodes):
-
-![dahak-spy netdata instance](https://i.imgur.com/ECoGLFN.png)
 
 ## Services
 
-Services are run through Docker. Dockerfiles and/or run and build scripts provided.
+dahak spy runs most of its services through Docker
+(some stock, some using custom Dockerfiles).
+It runs:
+* databases (prometheus, mongodb, mongoexpress)
+* monitoring (netdata)
+* dashboards (grafana)
+* messaging (zmq)
 
-Database services:
+See [docker/README.md](/docker/README.md) for more info on the 
+services that are running in containers.
 
-* MongoDB + MongoExpress (general purpose)
-* Prometheus (collects data from netdata endpoints)
+## Cloud Deployment
 
-Metrics, Monitoring, and Dashboards:
+To deploy these scripts to a cloud node, use the cloud init 
+functionality of Ubuntu and upload the cloud init script
 
-* Netdata (this is run both on spy and on the nodes that spy is monitoring)
-* Grafana (visualizes data in Prometheus database)
+## By Hand Deployment
 
-Messaging services:
+Installing by hand is a three-step process:
+* Install git
+* Run sudo init script
+* Run user init script
 
-* ZeroMQ (a.k.a. zmq) (general purpose)
+### Step 1: Install Git
 
-<br />
+To install git:
 
-## Databases:
+```
+apt-get update && apt-get install -y git
+```
 
-### MongoDB
+Now you can check out a copy of the repo:
 
-Port: `27017`
+```
+git clone https://github.com/charlesreid1/dahak-yeti.git
+cd dahak-yeti/
+```
 
-Link: [MongoDB](https://www.mongodb.com/)
+### Step 2: Run Sudo Init Script
 
-Description: MongoDB is a NoSQL database. It is loose with syntax, accepts unstructured data, and is easy to get going. It is consistent with a philosophy of lowering barriers to collecting data.
+To run the sudo init script, which calls several other scripts, run:
 
-#### MongoExpress
+```
+# as the sudo user:
+$PWD/sudo_init/sudo_init.sh
+```
 
-Port: `8081`
+### Step 3: Run User Init Script
 
-Link: [MongoExpress](https://github.com/mongo-express/mongo-express)
+To run the user init script, run:
 
-Description: MongoExpress is an extremely useful web interface for MongoDB. It further lowers the barrier to collecting data.
+```
+# as the regular dahak user, 
+$PWD/sudo_init/sudo_init.sh
 
-<br />
+# or if you are still sudo,
+sudo -H -i -u dahak $PWD/sudo_init/sudo_init.sh
+```
 
-## Metrics, Monitoring, Dashboards:
+## Using the Dotfiles
 
-### Netdata
+The dotfiles are installed for the regular user on  the yeti node.
+These dotfiles make it easy to define an environment, either for 
+all users (by changing the dotfiles in the repo) or for an individual
+user (using site-specific dotfiles).
 
-Port: `19999`
+The `$PATH` is set in `.bash_profile`
 
-Link: [Netdata](https://github.com/firehol/netdata)
+The prompt is set in `.bash_prompt`
 
-Netdata is a service that will collect metrics from compute instances.
-Data is available through an API endpoint and is collected by Prometheus.
+The aliases are set in `.aliases`
 
-### Grafana
+To set your own aliases, source your own dotfiles, or otherwise
+insert steps into the dotfiles initialization process, use 
+the `~/.extras` file.
 
-Port: `3000` (or [specified by user](http://docs.grafana.org/installation/configuration/#http-port))
+To set your git credentials, add the following to the `~/.extras` file:
 
-Link: [Grafana](https://grafana.com/)
+```
+# Git credentials
+# Not in the repository
+# This prevents people from using incorrect github credentials
+GIT_AUTHOR_NAME="<<< your name here >>>"
+GIT_AUTHOR_EMAIL="<<< your email here >>>"
 
-Grafana is a tool for creating dashboard visualizations. 
-Grafana connects to Prometheus on the backend and visualizes
-data contained in the Prometheus database.
+GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 
-<br />
+git config --global user.name "$GIT_AUTHOR_NAME"
+git config --global user.email "$GIT_AUTHOR_EMAIL"
+```
 
-## Messaging:
 
-### ZeroMQ (ZMQ)
+## Screenshots
 
-Port: `<specified by user>`
+Netdata running on a beefy node @ 10.11.0.194:
 
-Link: [ZeroMQ](http://zeromq.org/)
+![dahak-yeti netdata instance](https://i.imgur.com/DGMdAZz.png)
 
-Description: ZeroMQ is a messaging queue with a client-server pub-sub architecture. Clients can either publish (write) to a channel, or subscribe to (read) a channel. ZMQ separates the process of publishing data and storing it. This allows for publishers to publish to a channel without regard to what will ultimately be done with the data by the subscribers (and to easily share data with multiple subscribers). For example, if a publisher publishes 3 messages per second, but data is only needed at a 10-second resolution, or we want to report a rolling average, the messages can be collected and filtered as needed.
+Netdata running on dahak-spy @ 10.11.0.192 (spy monitors itself and other nodes):
+
+![dahak-spy netdata instance](https://i.imgur.com/ECoGLFN.png)
+
 
