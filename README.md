@@ -39,8 +39,8 @@ apt-get update && apt-get install -y git
 Now you can check out a copy of the repo:
 
 ```
-git clone https://github.com/charlesreid1/dahak-yeti.git
-cd dahak-yeti/
+git clone https://github.com/charlesreid1/dahak-spy.git
+cd dahak-spy/
 ```
 
 ### Step 2: Run Sudo Init Script
@@ -66,7 +66,7 @@ sudo -H -i -u dahak $PWD/sudo_init/sudo_init.sh
 
 ## Using the Dotfiles
 
-The dotfiles are installed for the regular user on  the yeti node.
+The dotfiles are installed for the regular user on  the spy node.
 These dotfiles make it easy to define an environment, either for 
 all users (by changing the dotfiles in the repo) or for an individual
 user (using site-specific dotfiles).
