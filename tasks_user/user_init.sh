@@ -3,10 +3,7 @@
 # initialize all the dotfiles stuff for user 
 set -x
 
-DOTFILES="$HOME/dotfiles"
-mkdir -p $DOTFILES
-
-SPY="$DOTFILES/dahak-spy"
+SPY="$HOME/dahak-spy"
 git clone https://github.com/charlesreid1/dahak-yeti $SPY
 
 cd $SPY/tasks_user
