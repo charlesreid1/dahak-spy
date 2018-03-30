@@ -4,7 +4,12 @@
 set -x
 
 DOTFILES="$HOME/dotfiles"
-git clone https://github.com/charlesreid1/dahak-spy $DOTFILES
+mkdir -p $DOTFILES
+
+SPY="$DOTFILES/dahak-spy"
+git clone https://github.com/charlesreid1/dahak-yeti $SPY
+
+cd $SPY/tasks_user
 
 ./pre_bootstrap.sh
 (
