@@ -4,7 +4,7 @@
 set -x
 
 SPY="$HOME/dahak-spy"
-git clone https://github.com/charlesreid1/dahak-yeti $SPY
+git clone https://github.com/charlesreid1/dahak-spy $SPY
 
 cd $SPY/tasks_user
 

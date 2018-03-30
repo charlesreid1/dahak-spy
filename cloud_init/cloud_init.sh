@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# boot-to-dahak-yeti script
+# boot-to-dahak-spy script
 # 
 # This script is intended to get you from
 # bare metal to a machine ready to run
